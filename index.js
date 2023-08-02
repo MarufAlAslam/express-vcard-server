@@ -59,27 +59,37 @@ app.post("/api/v1/cards", async (req, res) => {
 
 // update a card and add a new field
 app.put("/api/v1/cards/:id", async (req, res) => {
-    const cardId = req.params.id;
+  const cardId = req.params.id;
 
-    console.log('updating card with id:', cardId);
+  console.log("updating card with id:", cardId);
 
-    const updatedCard = req.body;
+  const updatedCard = req.body;
 
-    const filter = { _id: new ObjectId(cardId) };
+  const filter = { _id: new ObjectId(cardId) };
 
-    const options = { upsert: true };
+  const options = { upsert: true };
 
-    const updateDoc = {
-        $set: {
-            ...updatedCard,
-        },
-    };
+  const updateDoc = {
+    $set: {
+      ...updatedCard,
+    },
+  };
 
-    cardCollection.updateOne(filter, updateDoc, options);
+  cardCollection.updateOne(filter, updateDoc, options);
 
-    res.send(updatedCard);
+  res.send(updatedCard);
 });
 
+// get a card by id
+app.get("/api/v1/cards/:id", async (req, res) => {
+  const cardId = req.params.id;
+
+  console.log("fetching card with id:", cardId);
+
+  const card = await cardCollection.findOne({ _id: new ObjectId(cardId) });
+
+  res.send(card);
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
