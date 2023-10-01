@@ -25,7 +25,19 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    // create a collection for cards
+    
+  } finally {
+  }
+}
+
+run().catch(err => console.error(err));
+
+app.get('/', (req, res) => {
+    res.send('Server is Running');
+});
+
+
+// create a collection for cards
     const cardCollection = client.db("vcard").collection("cards");
 
     // get all cards
@@ -79,15 +91,6 @@ async function run() {
 
       res.send(card);
     });
-  } finally {
-  }
-}
-
-run().catch(err => console.error(err));
-
-app.get('/', (req, res) => {
-    res.send('Server is Running');
-});
 
 
 app.listen(port, () => {
